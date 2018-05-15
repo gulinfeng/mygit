@@ -1,0 +1,10 @@
+---- set_door_net_state Matches (9 in 3 files) ----
+Main.c (f:\project_si\imx6_face_recog):	set_door_net_state(0);
+Main.c (f:\project_si\imx6_face_recog):		set_door_net_state(1);
+Main.c (f:\project_si\imx6_face_recog):				set_door_net_state(0);
+Sdl_door.c (f:\project_si\imx6_face_recog):void set_door_net_state(int isconnected)
+Sdl_door.c (f:\project_si\imx6_face_recog):	set_door_net_state(0);
+Sdl_door.c (f:\project_si\imx6_face_recog):		set_door_net_state(1);
+Sdl_door.c (f:\project_si\imx6_face_recog):	set_door_net_state(0);
+Sdl_door.c (f:\project_si\imx6_face_recog):	set_door_net_state(0);
+Sdl_door.h (f:\project_si\imx6_face_recog):void set_door_net_state(int isconnected);

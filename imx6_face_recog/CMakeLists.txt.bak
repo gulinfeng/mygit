@@ -1,0 +1,104 @@
+CMAKE_MINIMUM_REQUIRED (VERSION 2.6)
+
+PROJECT(FACE_RECOG)
+
+#aux_source_directory(. DIR_SRCS)
+#MESSAGE(STATUS ${DIR_SRCS})
+
+set(DIR_PREFIX "/home/s500/local")
+
+option (USE_FR_LIB "Use face recog lib" ON) 
+
+set(APP_SRCS 
+		door_kernel/blockqueue.c 
+		door_kernel/taskpool.c 
+		door_kernel/dictionary.c 
+		door_kernel/iniparser.c 
+		door_kernel/comm_utile.c 
+		door_kernel/i2c_ctl.c 
+		door_kernel/libAudio.c 
+		door_kernel/platform_ioctl.c 
+		door_kernel/tx522.c 
+		door_kernel/door_signal.c 
+		door_kernel/door_network.c 
+		door_kernel/door_media.c 
+		door_kernel/door_info.c 
+		door_kernel/door_log.c 
+		door_kernel/door_card.c 
+		door_kernel/g711.c 
+		sdl_page.c 
+		sdl_door.c 
+		face_recog_page.c 
+		fr_extra_page.c
+		gui_utile.c 
+		main.c 
+		videos/gst_video.c 
+		videos/gst_fr_streamer.c 
+		videos/gst_send_streamer.c )
+		
+if(USE_FR_LIB)
+	list(APPEND APP_SRCS 
+			  recog/face_recog.c 
+			  recog/fr_lib_wrap.cpp)
+endif()
+
+MESSAGE(STATUS ${APP_SRCS})
+
+include_directories("${DIR_PREFIX}/include")
+include_directories("${DIR_PREFIX}/include/SDL")
+include_directories("${DIR_PREFIX}/include/gstreamer-1.0")
+include_directories("${DIR_PREFIX}/include/glib-2.0")
+include_directories("${DIR_PREFIX}/lib/glib-2.0/include")
+include_directories("${PROJECT_SOURCE_DIR}/door_kernel")
+include_directories("${PROJECT_SOURCE_DIR}/videos")
+
+if(USE_FR_LIB)
+	include_directories("${PROJECT_SOURCE_DIR}/recog")	
+endif()
+
+link_directories("${DIR_PREFIX}/lib")
+
+if(USE_FR_LIB)
+	link_directories("${PROJECT_SOURCE_DIR}/libs")
+endif()
+
+set(APP_LIBS pthread 
+		dl 
+		rt 
+		z 
+		m 
+		png 
+		asound
+		SDL 
+		SDL_gfx 
+		SDL_ttf
+		SDL_image 
+		freetype 
+		gstapp-1.0
+		gstvideo-1.0
+		gstbase-1.0
+		gstreamer-1.0
+		gobject-2.0
+		gmodule-2.0 
+    glib-2.0 
+    ffi)
+		
+if(USE_FR_LIB)
+	list(APPEND APP_LIBS wfFR)
+endif()
+
+#ADD_DEPENDENCIES("-Wall")
+
+add_definitions("-Wall")
+#add_definitions("-Wpointer-to-int-cast")
+
+#SET(CMAKE_C_FLAGS -Wall)
+#SET(CMAKE_CXX_FLAGS -Wall)
+
+add_executable(face_recog ${APP_SRCS})
+
+target_link_libraries(face_recog ${APP_LIBS})
+
+
+
+
